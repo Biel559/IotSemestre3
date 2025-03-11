@@ -1,40 +1,77 @@
 <script setup lang="ts">
-// export default{
-//     name: "Devices",
-//     data() {
-//         return {
-//         contador: 0
-//         }
-//     },
-//     methods:{
-//         incrementar() {
-//             this.contador ++;
-//         },
-//         decrementar() {
-//             this.contador --;
-//         },
-//     } 
-// }
+import { Device, Environment } from '@/models/devices';
+import { ref, reactive } from 'vue';
 
-import {ref} from 'vue';
+const ar: Device = reactive(new Device());
+ar.name = 'Ar condicionado Samsung';
+ar.state = false;
+ar.icon = 'mode_cool';
 
-const contador = ref(0);
-const contar = ()=> {
-    contador.value +=1;
-    console.log(contador);
-}
-const descontar = ()=> {
-    contador.value -=1;
-    console.log(contador);
-}
+const tv: Device = reactive(new Device());
+tv.name = 'Smart TV LG';
+tv.icon = 'tv';
+
+const iluminacao: Device = reactive(new Device());
+iluminacao.name = 'Lâmpada Led';
+iluminacao.state = true;
+iluminacao.icon = 'light';
+
+const sala: Environment = reactive(new Environment());
+sala.name = 'Sala de Estar';
+sala.devices = [ ar, tv, iluminacao ];
+
+
+const tomada: Device = reactive(new Device());
+tomada.name = 'Tomada inteligente';
+tomada.state = false;
+tomada.icon = 'power';
+
+const quarto: Environment = reactive(new Environment());
+quarto.name = 'Quarto de Hóspedes';
+quarto.devices = [ tomada ];
+
+const environments: Array<Environment> = reactive([]);
+environments.push(sala);
+environments.push(quarto);
+
+
 </script>
 
 <template>
-<h1>Hello Devices! Valor: {{ contador }}</h1>
-<button @click="contar">incrementar</button>
-<button @click="descontar">decrementar</button>
+    <h1>Seus Dispositivos: </h1>
+
+    <div v-for="(currentEnvironment, envId) in environments" :key="envId">
+        <h3>{{ currentEnvironment.name }}</h3>
+        <div v-for="(currentDevice, id) in currentEnvironment.devices" :key="id">        
+            <h5>{{ currentDevice.name }}</h5>
+            <span class="icons material-icons-round">{{ currentDevice.icon }}</span>
+            <div :class="`button-${currentDevice.state}`">
+                <button class="on">ON</button>
+                <button class="off">OFF</button>
+            </div>      
+        </div>    
+        <hr>
+    </div>
+    
+    
+    
 </template>
 
 <style scoped lang="scss">
-
+    .button-true{
+        .on{
+            background-color: green;
+        }
+        .off{
+            background-color: white;
+        }
+    }
+    .button-false{
+        .on{
+            background-color: white;
+        }
+        .off{
+            background-color: red;
+        }
+    }
 </style>
