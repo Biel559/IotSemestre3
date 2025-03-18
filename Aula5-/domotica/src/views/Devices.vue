@@ -1,11 +1,13 @@
 <script setup lang="ts">
+import DeviceComponent from '@/components/DeviceComponent.vue';
+import EnvironmentComponent from '@/components/EnvironmentComponent.vue';
 import { Device, Environment } from '@/models/devices';
 import { ref, reactive } from 'vue';
 
 const ar: Device = reactive(new Device());
 ar.name = 'Ar condicionado Samsung';
 ar.state = false;
-ar.icon = 'mode_cool';
+ar.icon = 'heat_pump';
 
 const tv: Device = reactive(new Device());
 tv.name = 'Smart TV LG';
@@ -38,40 +40,25 @@ environments.push(quarto);
 </script>
 
 <template>
-    <h1>Seus Dispositivos: </h1>
-
-    <div v-for="(currentEnvironment, envId) in environments" :key="envId">
-        <h3>{{ currentEnvironment.name }}</h3>
-        <div v-for="(currentDevice, id) in currentEnvironment.devices" :key="id">        
-            <h5>{{ currentDevice.name }}</h5>
-            <span class="icons material-icons-round">{{ currentDevice.icon }}</span>
-            <div :class="`button-${currentDevice.state}`">
-                <button class="on">ON</button>
-                <button class="off">OFF</button>
-            </div>      
-        </div>    
-        <hr>
-    </div>
-    
-    
-    
+    <main class="flex flex-column justify-content-center align-items-center">
+        <h1>Seus Dispositivos: 🚥</h1>    
+       <section class="environments border-round-sm">
+            <div v-for="(currentEnvironment, envId) in environments" :key="envId">
+                <EnvironmentComponent :environment="currentEnvironment" />
+            </div>
+       </section>
+    </main>
 </template>
 
 <style scoped lang="scss">
-    .button-true{
-        .on{
-            background-color: green;
-        }
-        .off{
-            background-color: white;
-        }
-    }
-    .button-false{
-        .on{
-            background-color: white;
-        }
-        .off{
-            background-color: red;
+    main{
+        width: 100vw;
+        min-height: 100vh;
+        .environments{
+            width: 90vw;
+            min-height: 95vh;
+            background-color: var(--background-envs-color);
+            box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
         }
     }
 </style>
