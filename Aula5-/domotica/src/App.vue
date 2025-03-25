@@ -16,7 +16,7 @@ const changePage = ()=> {
 
 </script>
 
-<template>  
+<template> 
   <button @click="changePage">Página {{ buttonRouteLabel }}</button>
   <!-- <RouterLink to="/management"> Gerenciamento  </RouterLink> -->
   <RouterView />
