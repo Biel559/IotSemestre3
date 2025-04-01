@@ -47,7 +47,7 @@ onMounted(() => {
             </div>
             <div>
                 <EnvironmentComponent :showDeviceButtons="false" :environment="selectedEnvironment" />
-            </div>
+            </div>            
         </section>
     </main>
 </template>
