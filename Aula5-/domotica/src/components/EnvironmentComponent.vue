@@ -19,6 +19,10 @@ import { useDeviceRepository } from '@/stores/deviceRepository';
         newDevice.icon = 'devices';
         showNewDeviceForm.value = false;
     }
+
+    const removeDevice = (index:number)=> {        
+        useDeviceRepository().removeDevice(props.environment, index);
+    }
 </script>
 
 <template>
@@ -27,9 +31,9 @@ import { useDeviceRepository } from '@/stores/deviceRepository';
         <div class="flex flex-row">
             <div v-for="(currentDevice, id) in props.environment.devices" :key="id">        
                 <DeviceComponent :showButtons="showDeviceButtons" :device="currentDevice" 
-                    :index="id" @deviceDeleteEvent=""/>
+                    :index="id" @deviceDeleteEvent="removeDevice"/>
             </div>
-            <AddNewDeviceComponent @newDeviceEvent="showNewDeviceForm = !showNewDeviceForm" />                 
+            <AddNewDeviceComponent v-if="!props.showDeviceButtons" @newDeviceEvent="showNewDeviceForm = !showNewDeviceForm" />                 
             <div v-if="showNewDeviceForm">
                 <div>
                     <label for="">Nome:</label>
